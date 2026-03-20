@@ -31,11 +31,11 @@ The game focuses on **route optimization, time management, and real-time decisio
 
 ## 📸 Screenshots
 
-### 🎄 Start Screen
-![Start Screen](./docs/start_screen.png)
-
 ### 📊 Start Stats
 ![Start Stats](./docs/start_stats.png)
+
+### 🎄 Start Screen
+![Start Screen](./docs/start_screen.png)
 
 ### 🎮 Gameplay
 ![Gameplay](./docs/gameplay1.png)
