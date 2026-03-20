@@ -1,0 +1,28 @@
+build*
+/**/bin
+/**/.vs
+/**/obj
+components_hidden
+
+# build folders
+build/
+cmake-build-*/
+out/
+
+# Visual Studio
+.vs/
+*.vcxproj*
+*.sln
+
+# binaries
+*.exe
+*.dll
+*.lib
+*.obj
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+
+# logs
+*.log
