@@ -37,9 +37,6 @@ The game focuses on **route optimization, time management, and real-time decisio
 ### 📊 Start Stats
 ![Start Stats](./docs/start_stats.png)
 
-### 🏠 Home / Map Overview
-![Home](./docs/home.png)
-
 ### 🔀 Intersection Decision
 ![Intersection](./docs/intersection.png)
 
