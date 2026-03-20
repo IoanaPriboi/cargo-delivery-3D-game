@@ -1,195 +1,219 @@
-# GFX Framework
+# 🎄 Cargo Delivery: Save Christmas in Whoville
 
-## :sparkles: Introduction
+## 🕹️ Overview
 
-This project is a tiny graphics framework used by the Computer Graphics Department of the Polytechnic University of Bucharest.
-It is currently used as teaching and study material for a number of courses of increasing complexity, including, but not limited to:
+**Cargo Delivery: Save Christmas in Whoville** is a 3D OpenGL game built in C++, where the player controls a train tasked with saving Christmas after the Grinch sabotages the central Christmas tree.
 
--   **`EGC`** Elements of Computer Graphics, BSc year 3 &mdash; [course materials (RO)](https://ocw.cs.pub.ro/courses/egc)
--   **`PGAPI`** Advanced Graphics Programming and Image Processing, BSc year 4 &mdash; [course materials (RO)](https://ocw.cs.pub.ro/courses/pgapi)
+The Grinch has scattered all ornaments across multiple stations in Whoville. Your mission is to collect them efficiently and deliver them back to the central station before time runs out.
 
-The functionality is split into several modules of increasing difficulty (`m1`, `m2`, etc.).
+The game focuses on **route optimization, time management, and real-time decision making** at railway intersections.
 
-You can read more about it [in the docs](docs/home.md).
+---
 
-It has missing and closed-source functionality that you will need to implement.
+## 🎮 Gameplay
 
-The code is cross-platform, and supports the following architectures:
+- Control a train moving on a railway network
+- Choose directions at intersections to optimize routes
+- Collect ornaments from resource stations
+- Deliver them to the central station to rebuild the Christmas tree
+- Complete orders as fast as possible to maximize score
 
--   Windows: `i686`, `x86_64`, `arm64`
--   Linux: `i686`, `x86_64`, `arm64`
--   macOS: `x86_64`, `arm64`
+### Core Mechanics
 
+- 🚂 Train movement on rail graph
+- 🔀 Intersection decision system
+- 🎯 Order-based delivery system
+- ⏱️ Time-based scoring
+- 🔄 Resource regeneration per station
+- 🎁 Dynamic order generation
 
-## :white_check_mark: Prerequisites
+---
 
-This section describes ***what you need to do and install*** before actually building the code.
+## 📸 Screenshots
 
+### 🎄 Start Screen
+![Start Screen](./docs/start_screen.png)
 
-### Install a compiler
+### 📊 Start Stats
+![Start Stats](./docs/start_stats.png)
 
-The compiler requirements are listed below. We strongly recommend to always use the latest compiler versions.
+### 🏠 Home / Map Overview
+![Home](./docs/home.png)
 
--   Minimum:
-    -   Windows: Visual Studio 2015 Update 3 with `Programming Languages -> Visual C++` checked when installing
-    -   Linux: `g++` version 5
-    -   macOS: `clang++` version 4
+### 🔀 Intersection Decision
+![Intersection](./docs/intersection.png)
 
--   Recommended:
-    -   Windows: Visual Studio 2022 with `Workloads -> Desktop development with C++` checked when installing
-        -    When installing Visual Studio 2019 or later, double-check that you selected "Desktop development with C++". This should download and install approximately 8 GB of stuff from the Microsoft servers. If you installed Visual Studio and it only took several minutes, you probably missed this step
-    -   Linux: `g++` latest
-    -   macOS: `clang++` latest, by doing one of the following:
-        -   for LLVM/Clang: install [`brew`](https://brew.sh/) then run `brew install llvm`
-        -   for Apple Clang: install XCode
+### 🎮 Gameplay
+![Gameplay](./docs/gameplay1.png)
 
+### 🎁 Collect Ornament
+![Collect Ornament](./docs/collect_ornament.png)
 
-### Install an editor
+### 🚚 Deliver Ornaments
+![Deliver Ornaments](./docs/deliver_ornaments.png)
 
-We recommend the following editors:
+### ❌ Game Over
+![Game Over](./docs/game_over.png)
 
--    Windows: Visual Studio (***not*** the same thing as Visual Studio Code)
--    Linux: Visual Studio Code
--    macOS: Visual Studio Code (***do not*** use Visual Studio for Mac, as it's discontinued)
+### 📊 Game Over Stats
+![Game Over Stats](./docs/game_over_stats.png)
 
+---
 
-### Install or update your graphics drivers
+## 🧠 Technical Highlights
 
-Use the following steps as a guideline. Detailed instructions differ across manufacturers and operating systems, and are ***not*** covered here.
+### 🌍 Procedural Terrain System
 
--   Update the drivers for your integrated graphics processor (for example, Intel Graphics XXXX)
--   Update the drivers for your dedicated graphics card, if your computer has one:
-    -   for Nvidia cards: https://www.nvidia.com/Download/index.aspx
-    -   for AMD cards: https://www.amd.com/en/support
+- The terrain is implemented as a 2D grid (matrix) where each cell represents a tile in the world
+- Terrain types:
+  - Grass
+  - Water
+  - Mountain
+- Grid coordinates are automatically converted into 3D world positions
+- The terrain mesh is generated manually using triangles (no external models)
 
-Not updating your drivers may result in the project not working, or displaying a white screen.
+---
 
+### 🛤️ Railway System (Graph-Based)
 
-### Check your graphics capabilities
+- Rail network implemented as a **directed graph**
+- Each rail stores:
+  - start / end position
+  - length
+  - possible next rails
 
-Graphics capabilities are decided by the combination of your computer's hardware, drivers, and operating system.
+- Automatic connection building based on endpoints
 
-This project requires OpenGL version ***3.3 core profile, or newer*** for the simpler parts, and version ***4.3 core profile, or newer***  for the more advanced parts. If you have a computer manufactured within the last few years, you should be safe. ***If you're not sure,*** follow the steps in [this guide](docs/user/checking_capabilities.md) to find out.
+- Rail types:
+  - Normal
+  - Bridge (water)
+  - Tunnel (mountain)
 
+---
 
-### Install the third-party libraries
+### 🚂 Train System
 
-There are some open-source libraries that this project uses. To install them:
+- Movement based on:
+  - rail progress `[0, 1]`
+  - speed + state machine
 
--   Windows: you don't need to do anything - all necessary libraries are already provided with the code
+- States:
+  - moving
+  - waiting at intersection
+  - loading resource
 
--   Linux: depending on your distribution, run one of the following scripts as superuser:
-    -   Debian (Ubuntu): `./tools/deps-ubuntu.sh`
-    -   Red Hat (Fedora): `./tools/deps-fedora.sh`
-    -   Arch (x86_64): `./tools/deps-arch.sh`
+- Player selects direction at intersections
 
--   macOS: install [`brew`](https://brew.sh/) then run `./tools/deps-macos.sh`
+---
 
+### 🪝 Resource Collection (AABB Collision)
 
-### Install the build tools
+- Train uses a **hook mechanic**
+- Hook states:
+  - idle
+  - extending
+  - retracting
 
-This project uses [CMake][ref-cmake]. It a nutshell, CMake does not compile source code, instead it creates files that you then use to compile your code (for example, it creates a Makefile on Linux and macOS, a Visual Studio project on Windows, and so on).
+- Collision detection:
+  - Axis-Aligned Bounding Box (AABB)
 
-This project requires CMake ***3.16 or newer,*** however, as with the compilers, we strongly recommend that you use the latest version. To install it, follow these steps:
+- On collision:
+  - resource is collected
+  - added to train inventory
 
--   Windows:
-    1.  go to the [CMake downloads page][ref-cmake-dl]
-    2.  download the latest version of the file called `cmake-<VERSION>-windows-x86_64.msi`
-    3.  install it
+---
 
--   Linux:
-    1.  use your package manager to install `cmake`
-    2.  check the version using `cmake --version`
-    3.  depending on the version:
-        -   if it's the minimum required (see above), you're all set
-        -   otherwise, run `./tools/install-cmake.sh && . ~/.profile` in a terminal
+### 🏗️ Custom Mesh System
 
--   macOS:
-    1.  run `brew install cmake`
+All objects in the scene are procedurally generated (no external 3D models).
 
-After installation, run `cmake --version` to check that it's in your `PATH` environment variable. This should happen automatically, but if it didn't, just add it manually. Instructions on how to add an executable to your `PATH` differ across operating systems and are ***not*** covered here.
+Implemented meshes include:
+- Terrain grid
+- Cylinder
+- Cone
+- Pyramid
+- Hexagonal prism
 
+Each object is built manually using vertices and triangles, allowing full control over geometry and appearance.
+---
 
-## :gear: Building
+### 🎨 Shader System
 
-Open a terminal and go into the root folder of the project, which contains the top-level `CMakeLists.txt` file.
-Do not run CMake directly from the top-level folder (meaning, do not do this: `cmake .`). Instead, make a separate directory, as follows:
+- Custom **Vertex Shader** and **Fragment Shader**
+- Handles:
+  - transformations
+  - coloring
+  - dynamic effects
 
-1.  `mkdir build`
-2.  `cd build`
-3.  Generate the project:
-    -   for module 1 labs (default): `cmake ..`
-    -   for module 2 labs: `cmake .. -DWITH_LAB_M1=0 -DWITH_LAB_M2=1`
-    -   for extra labs: `cmake .. -DWITH_LAB_M1=0 -DWITH_LAB_EXTRA=1`
-    -   for none (`SimpleScene` only): `cmake .. -DWITH_LAB_M1=0`
-4.  Build the project:
-    -   Windows, one of the following:
-        -   `cmake --build .`
-        -   or just double-click the `.sln` file to open it in Visual Studio, then press `Ctrl+Shift+B` to build it
-    -   Linux and macOS, one of the following:
-        -   `cmake --build .`
-        -   or just `make`
+Example:
+- Central station color shifts toward red as time runs out
 
-That's it! :tada:
+---
 
-***Note:*** When running the CMake generation step on Windows (meaning, `cmake ..`), you may receive errors that include the phrase `Permission denied`. If you currently have the framework on the `C:` drive, for example on the Desktop, you might not have write permissions. Experimentally, we've found that this happens on single-drive devices (meaning, for example, computers with no disk partition other than `C:`). As an alternative, move the framework on the top-level (directly in `C:`) or create another drive partition (for example `D:`) and move it there.
+### 🎥 Camera System
 
+Two modes:
 
-### Rebuilding
+1. **Train-follow camera**
+2. **Free camera (user-controlled)**
 
-It's very simple to rebuild:
+Features:
+- First-person & third-person rotations
+- Movement constrained on XZ plane
+- Smooth camera transitions
 
--   Every time you modify source code and want to recompile, you only need to follow ***the last step*** (for example, just `make` again)
--   Every time you add/remove/rename a source code file on disk, you need to follow ***the last two steps*** (for example, just `cmake .. && make` again)
--   If something goes wrong when generating the project, just delete the contents of the `build` folder, or the folder itself, then follow all the steps again
+---
 
+### 🧭 UI / UX Features
 
-## :rocket: Running
+- 🗺️ Minimap
+- ⏱️ Time bar (green → red)
+- 🎮 Start / End screens
+- 📊 End-game statistics:
+  - total time
+  - delivered resources
+  - score
 
-You can run the project from an IDE, as well as standalone, from anywhere on disk. For example:
+---
 
--   Windows, one of the following:
-    -   `.\bin\Debug\GFXFramework`
-    -   or just open the `.sln` file in Visual Studio, then press `F5` to run it
+### 🎯 Game Design
 
--   Linux and macOS:
-    -   `./bin/Debug/GFXFramework`
+- 🎚️ Difficulty levels:
+  - Easy / Medium / Hard
 
-To run a certain lab:
+- Affects:
+  - time limit
+  - order complexity
 
--   Go into `main.cpp`
--   Find this line:
-    ```cpp
-    World *world = new gfxc::SimpleScene();
-    ```
--   Replace it with whatever you want to run, for example:
-    ```cpp
-    World *world = new m1::Lab1();
-    World *world = new m2::Lab1();
-    World *world = new extra::TessellationShader();
-    // etc.
-    ```
+- 🔄 Dynamic gameplay:
+  - new orders generated after delivery
+  - stations regenerate resources
 
+---
 
-## :book: Documentation
+## 🎮 Controls
 
-All user and developer documentation can be found in the `docs` directory.
+| Key | Action |
+|-----|--------|
+| W / A / S / D | Choose direction at intersections / move camera (free mode) |
+| SPACE | Toggle camera mode |
+| ENTER | Restart game |
+| Mouse | Control camera |
 
+---
 
-## :wrench: Contributing
+## ⚙️ Technologies
 
-See the [CONTRIBUTING.md](CONTRIBUTING.md) file for more info.
-A future roadmap is ***TBD***.
+- C++
+- OpenGL
+- GLSL
+- GLM
+- CMake
 
+---
 
-## :page_facing_up: License
+## 🧩 Framework
 
-This project is available under the [MIT][ref-mit] license; see [LICENSE.md](LICENSE.md) for the full license text.
-This project also includes external libraries that are available under a variety of licenses; see [LEGAL.txt](LEGAL.txt)
-for the full license texts and legal notices.
+This project is built on top of the **GFX Framework** provided by the Computer Graphics Department (UPB).
 
-
-[ref-cmake]:            https://github.com/Kitware/CMake/
-[ref-cmake-dl]:         https://github.com/Kitware/CMake/releases/
-[ref-cmake-build]:      https://github.com/Kitware/CMake#building-cmake-from-scratch
-[ref-mit]:              https://opensource.org/licenses/MIT
+For more details, see [FRAMEWORK.md](./FRAMEWORK.md).
