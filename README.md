@@ -37,11 +37,11 @@ The game focuses on **route optimization, time management, and real-time decisio
 ### 📊 Start Stats
 ![Start Stats](./docs/start_stats.png)
 
-### 🔀 Intersection Decision
-![Intersection](./docs/intersection.png)
-
 ### 🎮 Gameplay
 ![Gameplay](./docs/gameplay1.png)
+
+### 🔀 Intersection Decision
+![Intersection](./docs/intersection.png)
 
 ### 🎁 Collect Ornament
 ![Collect Ornament](./docs/collect_ornament.png)
