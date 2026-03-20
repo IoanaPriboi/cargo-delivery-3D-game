@@ -132,6 +132,7 @@ Implemented meshes include:
 - Hexagonal prism
 
 Each object is built manually using vertices and triangles, allowing full control over geometry and appearance.
+
 ---
 
 ### 🎨 Shader System
